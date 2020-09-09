@@ -177,6 +177,29 @@ public class Sudoku {
     }
 
 
+    private boolean preValidate() {
+        for (int i=0;i<9;i++) {
+            for (int j=0;j<9;j++) {
+                r = i;
+                c = j;
+
+                if (sudoku[r][c] != 0) {
+                    k = sudoku[r][c];
+                    sudoku[r][c] = 0;
+                    if (checkRow() && checkCol() && checkBox(findBox()) == true) {
+                        sudoku [r][c] = k;
+                    }
+                    else {
+                        System.out.println("Invalid board at " + r + "," + c);
+                        return false;
+                    }
+                }
+
+            }
+            }
+        return true;
+    }
+
     private boolean validate() {
         /*Checks row, column and box for cell's possible valid inputs*/
 
@@ -237,6 +260,16 @@ public class Sudoku {
 
 
     private void solve() {
+
+        if (findEmpty() == false) {
+            System.out.println("Board is already full. Exiting");
+            System.exit(0);
+        }
+
+        if (preValidate() == false) {
+            System.out.println("Invalid Board. Exiting");
+            System.exit(0);
+        }
 
         while (true){
 
